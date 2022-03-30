@@ -135,10 +135,11 @@ public class AdminResource extends ExceptionHandling {
         Map<String, Object> details = new HashMap<>();
         Admin loggedInAdmin = adminService.getAdminByEmail(admin.getEmail());
         AdminPrincipal adminPrincipal = new AdminPrincipal(loggedInAdmin);
-        HttpHeaders jwtHeaders = getJwHeaders(adminPrincipal);
+        // HttpHeaders jwtHeaders = getJwHeaders(adminPrincipal);
         details.put("message", "Sucessfully logged in.");
+        details.put(JWT_TOKEN_HEADER, jwtTokenProvider.generateToken(adminPrincipal));
         details.put("user", loggedInAdmin);
-        return new ResponseEntity<>(details, jwtHeaders, OK);
+        return new ResponseEntity<>(details, OK);
     }
 
     @PostMapping("/resetPassword")
